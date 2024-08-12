@@ -8,7 +8,7 @@ def load_credentials(config_path):
     return creds
 
 def fetch_data(query, count=100, lang="en"):
-    """Fetches tweets based on a specific query.
+    """Fetches tweets using the Twitter API v2 based on a specific query.
     
     Args:
         query (str): The search term to filter tweets.
@@ -21,23 +21,22 @@ def fetch_data(query, count=100, lang="en"):
     # Load credentials from config/credentials.yaml
     credentials = load_credentials("config/credentials.yaml")
 
-    # Authenticate with the Twitter API
-    auth = tweepy.OAuthHandler(credentials['api_key'], credentials['api_secret_key'])
-    auth.set_access_token(credentials['access_token'], credentials['access_token_secret'])
-    api = tweepy.API(auth, wait_on_rate_limit=True)
+    # Authenticate with the Twitter API v2
+    client = tweepy.Client(bearer_token=credentials['bearer_token'])
 
-    # Search for tweets
-    tweets = tweepy.Cursor(api.search_tweets, q=query, lang=lang, tweet_mode='extended').items(count)
-    
+    # Search for tweets using the API v2
+    query = f"{query} lang:{lang}"
+    tweets = client.search_recent_tweets(query=query, max_results=count, tweet_fields=['created_at', 'text', 'author_id', 'public_metrics'])
+
     # Process and return the data
     tweets_data = []
-    for tweet in tweets:
+    for tweet in tweets.data:
         tweets_data.append({
-            "text": tweet.full_text,
+            "text": tweet.text,
             "created_at": tweet.created_at,
-            "user": tweet.user.screen_name,
-            "retweet_count": tweet.retweet_count,
-            "favorite_count": tweet.favorite_count
+            "user": tweet.author_id,
+            "retweet_count": tweet.public_metrics['retweet_count'],
+            "favorite_count": tweet.public_metrics['like_count']
         })
     
     return tweets_data

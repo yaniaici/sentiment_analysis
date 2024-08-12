@@ -1,0 +1,44 @@
+# Twitter API Configuration
+twitter:
+  query: "python"          # The search term or hashtag you want to query
+  tweet_count: 100         # Number of tweets to fetch
+  lang: "en"               # Language of the tweets (e.g., 'en' for English)
+  result_type: "recent"    # Type of tweets to fetch: 'recent', 'popular', etc.
+  fetch_mode: "extended"   # Tweet mode: 'extended' to get the full text of the tweet
+
+# Preprocessing Configuration
+preprocessing:
+  remove_stopwords: true   # Whether to remove stopwords from tweets
+  lowercase: true          # Whether to convert tweets to lowercase
+  remove_urls: true        # Whether to remove URLs from tweets
+  remove_mentions: true    # Whether to remove @mentions from tweets
+  remove_hashtags: true    # Whether to remove hashtags from tweets
+  remove_numbers: true     # Whether to remove numbers from tweets
+  remove_special_characters: true # Whether to remove special characters from tweets
+
+# Sentiment Analysis Configuration
+sentiment_analysis:
+  method: "textblob"       # Method to use for sentiment analysis (e.g., 'textblob')
+  positive_threshold: 0.1  # Polarity threshold for positive sentiment
+  negative_threshold: -0.1 # Polarity threshold for negative sentiment
+
+# Visualization Configuration
+visualization:
+  sentiment_distribution:
+    plot_type: "bar"       # Type of plot for sentiment distribution (e.g., 'bar', 'pie')
+    color_palette: "viridis" # Color palette to use for the plot
+  common_words:
+    top_n: 10              # Number of most common words to display
+  sentiment_over_time:
+    time_interval: "D"     # Interval for grouping data by time (e.g., 'D' for days, 'W' for weeks)
+
+# Data Storage Paths
+data_paths:
+  raw_data: "data/raw/"                  # Path to store raw data
+  processed_data: "data/processed/"      # Path to store processed data
+  external_data: "data/external/"        # Path for external datasets (optional)
+
+# Logging Configuration
+logging:
+  level: "INFO"              # Logging level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  file: "logs/project.log"   # Log file path
